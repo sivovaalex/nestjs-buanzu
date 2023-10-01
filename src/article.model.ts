@@ -6,131 +6,131 @@ export class Article extends BaseEntity {
   id: number;
 
   @Column()
-  title: string;
+  title?: string;
 
   @Column()
-  site_name: string;
+  site_name?: string;
 
   @Column()
-  icon: string;
+  icon?: string;
 
   @Column()
-  body_background: string;
+  body_background?: string;
 
   @Column()
-  lead_name: string;
+  lead_name?: string;
 
   @Column()
-  lead_name_color: string;
+  lead_name_color?: string;
 
   @Column()
-  lead_subtitle: string;
+  lead_subtitle?: string;
 
   @Column()
-  lead_subtitle_color: string;
+  lead_subtitle_color?: string;
   @Column()
-  lead_photo: string;
+  lead_photo?: string;
   @Column()
-  name_color: string;
+  name_color?: string;
   @Column()
-  text_color: string;
+  text_color?: string;
 
   @Column()
-  about_name: string;
+  about_name?: string;
 
   @Column()
-  about_text: string;
+  about_text?: string;
   @Column()
-  about_photo: string;
+  about_photo?: string;
   @Column()
-  client_name: string;
+  client_name?: string;
 
   @Column()
-  client_list: string;
+  client_list?: string;
   @Column()
-  photo_name: string;
+  photo_name?: string;
   @Column()
-  photo_path_list: string;
+  photo_path_list?: string;
   @Column()
-  plus_name: string;
+  plus_name?: string;
 
   @Column()
-  plus_list: string;
+  plus_list?: string;
 
   @Column()
-  plan_name: string;
+  plan_name?: string;
 
   @Column()
-  plan_list: string;
+  plan_list?: string;
 
   @Column()
-  button_name: string;
+  button_name?: string;
 
   @Column()
-  button_list: string;
+  button_list?: string;
 
   @Column()
-  contact_name: string;
+  contact_name?: string;
 
   @Column()
-  contact_text: string;
+  contact_text?: string;
 
   @Column()
-  phone_number: string;
+  phone_number?: string;
 
   @Column()
-  vk: string;
+  vk?: string;
 
   @Column()
-  tg: string;
+  tg?: string;
 
   @Column()
-  mail: string;
+  mail?: string;
 
   @Column()
-  address_name: string;
+  address_name?: string;
 
   @Column()
-  address: string;
+  address?: string;
 
   @Column()
-  map_link: string;
+  map_link?: string;
 
   constructor(
-    title: string,
-    site_name: string,
-    icon: string,
-    body_background: string,
-    lead_name: string,
-    lead_name_color: string,
-    lead_subtitle: string,
-    lead_subtitle_color: string,
-    lead_photo: string,
-    name_color: string,
-    text_color: string,
-    about_name: string,
-    about_text: string,
-    about_photo: string,
-    client_name: string,
-    client_list: string,
-    photo_name: string,
-    photo_path_list: string,
-    plus_name: string,
-    plus_list: string,
-    plan_name: string,
-    plan_list: string,
-    button_name: string,
-    button_list: string,
-    contact_name: string,
-    contact_text: string,
-    phone_number: string,
-    vk: string,
-    tg: string,
-    mail: string,
-    address_name: string,
-    address: string,
-    map_link: string,
-    id?: number,
+      title?: string,
+      site_name?: string,
+      icon?: string,
+      body_background?: string,
+      lead_name?: string,
+      lead_name_color?: string,
+      lead_subtitle?: string,
+      lead_subtitle_color?: string,
+      lead_photo?: string,
+      name_color?: string,
+      text_color?: string,
+      about_name?: string,
+      about_text?: string,
+      about_photo?: string,
+      client_name?: string,
+      client_list?: string,
+      photo_name?: string,
+      photo_path_list?: string,
+      plus_name?: string,
+      plus_list?: string,
+      plan_name?: string,
+      plan_list?: string,
+      button_name?: string,
+      button_list?: string,
+      contact_name?: string,
+      contact_text?: string,
+      phone_number?: string,
+      vk?: string,
+      tg?: string,
+      mail?: string,
+      address_name?: string,
+      address?: string,
+      map_link?: string,
+      id?: number,
   ) {
     super();
     this.id = id;
