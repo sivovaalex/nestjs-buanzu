@@ -1,9 +1,9 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Article extends BaseEntity {
+export class Site extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id_site: number;
 
   @Column()
   title?: string;
@@ -13,6 +13,8 @@ export class Article extends BaseEntity {
 
   @Column()
   icon?: string;
+  // @Column('varchar', { array: true })
+  // icon: Express.Multer.File[];
 
   @Column()
   body_background?: string;
@@ -51,6 +53,8 @@ export class Article extends BaseEntity {
   photo_name?: string;
   @Column()
   photo_path_list?: string;
+  // @Column('varchar', { array: true })
+  // photo_path_list: Express.Multer.File[];
   @Column()
   plus_name?: string;
 
@@ -99,6 +103,7 @@ export class Article extends BaseEntity {
   constructor(
     title?: string,
     site_name?: string,
+    //icon?: Express.Multer.File[],
     icon?: string,
     body_background?: string,
     lead_name?: string,
@@ -114,6 +119,7 @@ export class Article extends BaseEntity {
     client_name?: string,
     client_list?: string,
     photo_name?: string,
+    //photo_path_list?: Express.Multer.File[],
     photo_path_list?: string,
     plus_name?: string,
     plus_list?: string,
@@ -130,10 +136,10 @@ export class Article extends BaseEntity {
     address_name?: string,
     address?: string,
     map_link?: string,
-    id?: number,
+    id_site?: number
   ) {
     super();
-    this.id = id;
+    this.id_site = id_site;
     this.title = title;
     this.site_name = site_name;
     this.icon = icon;
@@ -168,7 +174,7 @@ export class Article extends BaseEntity {
     this.address = address;
     this.map_link = map_link;
   }
-  getId(): number {
-    return this.id;
+  getIdSite(): number {
+    return this.id_site;
   }
 }
