@@ -3,7 +3,9 @@ html
     head
         title #{title}
     style
+        include ../styles/create.css
     body
-        h1 Название сайта*: #{site_name}
-        a(href=dirSitePath, download) Скачать архив #{outputArchivePath}
-        a(href="/") Назад
+        h1 Название сайта: #{site_name}
+        a(href=outputArchivePath, download, class='button_download') Скачать архив #{outputArchivePath}
+        br
+        a(href="/", class='button_to_main') На главную
