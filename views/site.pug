@@ -3,25 +3,26 @@ html
   head
     title #{title}
   style
+    include ../styles/create.css
   body
     h1 Название сайта*: #{site_name}
     p Название вкладки*: #{title}
-    p Фавикон и логотип: #{icon}
+    p Фавикон и логотип: #{icon_path}
     p Цвет фона: #{body_background}
     p Заголовок первого экрана: #{lead_name}
     p Цвет заголовка первого экрана: #{lead_name_color}
     p Подзаголовок первого экрана: #{lead_subtitle}
     p Цвет подзаголовка первого экрана: #{lead_subtitle_color}
-    p Фотография-фон первого экрана: #{lead_photo}
+    p Фотография-фон первого экрана: #{lead_photo_path}
     p Цвет заголовков сайта: #{name_color}
     p Цвет текстов на сайте: #{text_color}
     p Название раздела О проекте: #{about_name}
     p Описание проекта: #{about_text}
-    p Фотография для раздела О вашем проекте: #{about_photo}
+    p Фотография для раздела О вашем проекте: #{about_photo_path}
     p Название раздела Клиенты: #{client_name}
     p Перечисление клиентов: #{client_list}
     p Название раздела Фото: #{photo_name}
-    p Фото : #{photo_path_list}
+    p Фото : #{gallery_list_path}
     p Название раздела Преимущества: #{plus_name}
     p Перечисление преимуществ: #{plus_list}
     p Название раздела Этапы работы: #{plan_name}
@@ -38,4 +39,4 @@ html
     p Физический адрес: #{address}
     p Ссылка на адрес: #{map_link}
 
-    a(href="/") Назад
+    a(href="/", class='button_to_main') На главную

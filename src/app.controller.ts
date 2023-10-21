@@ -8,26 +8,23 @@ import {
   Redirect,
   Render,
   NotFoundException,
-  UseInterceptors, UploadedFile
+  UseInterceptors, UploadedFile, UploadedFiles,
+  Res,
 } from "@nestjs/common";
 import { Site } from './site.model';
+import { SiteDto } from './site.dto';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as archiver from 'archiver';
 import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
 import multer, { diskStorage } from "multer";
+import {Response} from "express";
 import { v4 as uuidv4 } from 'uuid';
 
-// const storage = diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, 'uploads')
-//   },
-//   filename: function (req, file, cb) {
-//     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-//     cb(null, file.fieldname + '-' + uniqueSuffix)
-//   }
-// })
-// const upload = multer({ storage })
+
+interface FileParams {
+  fileName : string;
+}
 
 @Controller()
 export class AppController{
@@ -51,12 +48,6 @@ export class AppController{
                     }
             }
         );
-        /*const options: FindOneOptions = {
-          where: {
-            id: id,
-          },
-        };
-        const article = await Article.findOne(options);*/
         console.log(site);
         return site;
     }
@@ -69,75 +60,46 @@ export class AppController{
 
     @Post('sites')
     @Redirect()
-    // @UseInterceptors(FileFieldsInterceptor([
-    //   { name: 'icon', maxCount: 1 },
-    //   { name: 'photo_path_list', maxCount: 10 },
-    // ]))
-    //uploadFileAndPassValidation(
-    async create(
-      @Body()
-        body: {
-        title: string;
-        site_name: string;
-        icon: string;
-        // icon и photo_path_list будут содержать массив файлов
-        //icon: Express.Multer.File[];
-        body_background: string;
-        lead_name: string;
-        lead_name_color: string;
-        lead_subtitle: string;
-        lead_subtitle_color: string;
-        lead_photo: string;
-        name_color: string;
-        text_color: string;
-        about_name: string;
-        about_text: string;
-        about_photo: string;
-        client_name: string;
-        client_list: string;
-        photo_name: string;
-        photo_path_list: string;
-        //photo_path_list: Express.Multer.File[];
-        plus_name: string;
-        plus_list: string;
-        plan_name: string;
-        plan_list: string;
-        button_name: string;
-        button_list: string;
-        contact_name: string;
-        contact_text: string;
-        phone_number: string;
-        vk: string;
-        tg: string;
-        mail: string;
-        address_name: string;
-        address: string;
-        map_link: string;
-      },
-      //@UploadedFile() files: { icon?: Express.Multer.File[], photo_path_list?: Express.Multer.File[]}
-    ): Promise<{ url: string; statusCode: number }> {
-      //console.log('files:', files)
+    @UseInterceptors(FileFieldsInterceptor([
+        { name: 'icon', maxCount: 1 },
+        { name: 'lead', maxCount: 1 },
+        { name: 'about', maxCount: 1 },
+        { name: 'gallery', maxCount: 10 },
+      ],
+      { storage : diskStorage({
+          destination : "./uploads",
+          filename : (req , file , cb) => {
+            cb(null , `${file.originalname}`)
+          } }) }
+    ))
+    async create(@Body() body: SiteDto,
+                          @UploadedFiles() files: { icon?: Express.Multer.File,
+                            lead?: Express.Multer.File,
+                            about?: Express.Multer.File,
+                            gallery?: Express.Multer.File[]
+                          }) {
+      console.log(files);
+      console.log(Object.entries(files));
+  
       const site = new Site(
         body.title,
         body.site_name,
-        body.icon,
-        //body.icon.map(file => file.path), // сохраняем пути для иконки
+        files.icon ? files.icon[0].originalname : null, // сохраняем пути для иконки
         body.body_background,
         body.lead_name,
         body.lead_name_color,
         body.lead_subtitle,
         body.lead_subtitle_color,
-        body.lead_photo,
+        files.lead ? files.lead[0].originalname : null,
         body.name_color,
         body.text_color,
         body.about_name,
         body.about_text,
-        body.about_photo,
+        files.about ? files.about[0].originalname : null,
         body.client_name,
         body.client_list,
         body.photo_name,
-        body.photo_path_list,
-        //body.photo_path_list.map(file => file.path), // сохраняем пути для фото
+        files.gallery ? files.gallery.map((file) => file.originalname).join(';') : null,
         body.plus_name,
         body.plus_list,
         body.plan_name,
@@ -155,10 +117,10 @@ export class AppController{
         body.map_link,
       );
       await site.save();
-      //return new RedirectResponse(`articles/archive/${article.getId()}`);
       const url_id = Number({ id_site: site.getIdSite() }.id_site);
       return { url: 'sites/archive/' + url_id, statusCode: 301 };
     }
+
 
     @Get('sites/archive/:id_site')
     @Render('archive')
@@ -232,7 +194,7 @@ export class AppController{
       <meta name="viewport" content="width=device-width, initial-scale=1">
       ${site.title ? "<title>" + site.title + "</title>" : ""}
       <meta name="description" content="{lead_name}">
-      <link rel="icon" href=${site.icon ? site.icon : "static/images/buanzu_logo.ico"} type="image/x-icon">
+      <link rel="icon" href=${site.icon_path ? site.icon_path : "static/images/buanzu_logo.ico"} type="image/x-icon">
       <link rel="stylesheet" href="static/style.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     </head>
@@ -240,7 +202,7 @@ export class AppController{
       <header class="hide-on-mobile">
         <div class="inner">
         <a href="#home" class="logo">
-        <img src=${site.icon ? site.icon : "static/images/buanzu_logo.png"} alt="" width="60" height="60"></a>
+        <img src=${site.icon_path ? site.icon_path : "static/images/buanzu_logo.png"} alt="" width="60" height="60"></a>
         <ul class="menu">
           <li><a href="#home">Главная</a></li>
           ${site.about_name ? '<li><a href="#about">' + site.about_name + '</a></li>' : ""}
@@ -255,7 +217,7 @@ export class AppController{
       ${(site.about_name && site.about_text) ? '<section class="about" id="about">' +
         '<div class="inner"><h1 style="color: '+ site.name_color + '">' + site.about_name + '</h1>' +
         '<div class="about_container">' +
-        '<div class="about_text" style="color: ' + site.text_color + '"><img src=' + site.about_photo +
+        '<div class="about_text" style="color: ' + site.text_color + '"><img src=' + site.about_photo_path +
         ' alt="Фото" class="about_photo">' + site.about_text + 
         '</div></div></div></section>' : ""}
       ${(site.client_name && site.client_list) ? '<section class="client" id="client">' +
@@ -360,4 +322,5 @@ export class AppController{
             outputArchivePath,
         };
     }
-}
+
+  }
