@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
-import { Article } from './article.model';
+import { Site } from './site.model';
+import { MulterModule } from "@nestjs/platform-express";
 
 @Module({
   imports: [
@@ -14,8 +15,11 @@ import { Article } from './article.model';
       database: 'testdb',
       logging: true,
       synchronize: true,
-      entities: [Article],
+      entities: [Site],
     }),
+    // MulterModule.register({
+    //   dest: './uploads', // путь к папке для сохранения файлов
+    // }),
   ],
   controllers: [AppController],
 })
