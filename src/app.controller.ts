@@ -214,6 +214,12 @@ export class AppController{
           ${site.address_name ? '<li><a href="#address">' + site.address_name + '</a></li>' : ""}
         </ul></div>
       </header>
+      ${(site.lead_name) ? '<section class="home" id="home" style="' +
+        (site.lead_photo_path? 'background-image: url('+site.lead_photo_path+');' : '') +
+        'color: rgb('+site.lead_name_color + ')">\n<div class="home_header">'+
+        site.lead_name + '</div>\n' +
+        (site.lead_subtitle? '<h1 style="color: rgb('+site.lead_subtitle_color+')">'+site.lead_subtitle+'</h1></section>\n':'') +
+        '</div></section>': ''}
       ${(site.about_name && site.about_text) ? '<section class="about" id="about">' +
         '<div class="inner"><h1 style="color: '+ site.name_color + '">' + site.about_name + '</h1>' +
         '<div class="about_container">' +
@@ -225,10 +231,10 @@ export class AppController{
         '<ul class="border" style="color:' + site.text_color + '">' +
         site.client_list.split(";").map(client => `<li>${client}</li>`).join('') +
         '</ul></div></section>': ''}
-      ${(site.photo_name && site.plus_list) ? '<section class="gallery" id="gallery">' +
+      ${(site.photo_name && site.gallery_list_path) ? '<section class="gallery" id="gallery">' +
         'div class="inner"><h1 style="padding: 20px 0; color: ' + site.name_color + '">' + site.photo_name + '</h1>' +
         '<div class="gallery">' +
-        '' +
+        '' + site.gallery_list_path.split(";").map(gallery_photo => `<div class="gallery_photo"><img src=static/images/photos/${gallery_photo} alt="photo"></div>\n`).join('') +
         '</div></div></section>' : ''}
       ${(site.plus_name && site.plus_list) ? '<section class="plus" id="plus">' +
         '<div class="inner"><h1 style="padding: 20px 0; color: ' + site.name_color + '">' + site.plus_name + '</h1>' +
@@ -300,6 +306,17 @@ export class AppController{
         const sourceStaticFolder = 'static_general';
         const destinationStaticFolder = path.join(dirSitePath, 'static');
         copyFolder(sourceStaticFolder, destinationStaticFolder);
+        // копируем фото сайта в будущий архив
+        const uploadFolder = 'uploads';
+        const destinationStaticImageFolder = path.join(dirSitePath, 'static', 'images');
+        // ВКЛЮЧИТЬ НА СЕРВЕРЕ, НА ЛОКАЛЕ НЕТДОСТУПА
+        /*if (site.icon_path) {fs.copyFileSync(path.join(uploadFolder, site.icon_path), destinationStaticImageFolder);}
+        if (site.lead_photo_path) {fs.copyFileSync(path.join(uploadFolder, site.lead_photo_path), destinationStaticImageFolder);}
+        if (site.about_photo_path) {fs.copyFileSync(path.join(uploadFolder, site.about_photo_path), destinationStaticImageFolder);}
+        if (site.gallery_list_path){
+          const galleryArray = site.gallery_list_path.split(';');
+          galleryArray.forEach(galleryPhoto => fs.copyFileSync(path.join(uploadFolder, galleryPhoto), destinationStaticImageFolder))
+        }*/
         // создаём архив для скачивания
         const outputArchivePath = path.join(dirAllCreatedSites, `archive_${id_site}.zip`); // Путь для сохранения архива
         const outputArchive = fs.createWriteStream(outputArchivePath);

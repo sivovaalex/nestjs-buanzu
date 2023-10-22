@@ -3,10 +3,11 @@ html
   head
     title Буанзу
   style
+    include ../styles/create.css
   body
     h1 Добро пожаловать в Буанзу
+    a(href="create", class='button_create') Создать новый сайт
     ul
       each post in posts
-        li #{post.site_name}
-          a(href='sites/' + post.id_site)  Читать
-    a(href="create") Создать
+        li.site #{post.site_name}
+          a(href='sites/' + post.id_site, class='button_to_site')  Открыть сайт
