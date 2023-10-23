@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
-import { Site } from './site.model';
+import { Site } from './site/site.model';
+import { SiteService } from './site/site.service';
 import { MulterModule } from "@nestjs/platform-express";
 
 @Module({
@@ -22,5 +23,6 @@ import { MulterModule } from "@nestjs/platform-express";
     // }),
   ],
   controllers: [AppController],
+  providers: [SiteService],
 })
 export class AppModule {}
