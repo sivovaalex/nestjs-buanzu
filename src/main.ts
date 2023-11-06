@@ -9,7 +9,7 @@ async function bootstrap() {
   //app.useStaticAssets(join(__dirname , "../../uploads"));
   // app.useStaticAssets(join(__dirname , "../../history_sites"));
   // app.useStaticAssets(join(__dirname , "../../static"));
-  app.setBaseViewsDir(join(__dirname, '../../views'));
+  app.setBaseViewsDir([join(__dirname, '../../views'), join(__dirname, '../../history_sites/views'),]);
   app.setViewEngine('pug');
   await app.listen(3000);
 }

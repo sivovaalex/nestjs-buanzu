@@ -6,37 +6,72 @@ html
     include ../styles/create.css
   body
     h1 Название сайта*: #{site_name}
-    p Название вкладки*: #{title}
-    p Фавикон и логотип: #{icon_path}
-    p Цвет фона: #{body_background}
-    p Заголовок первого экрана: #{lead_name}
-    p Цвет заголовка первого экрана: #{lead_name_color}
-    p Подзаголовок первого экрана: #{lead_subtitle}
-    p Цвет подзаголовка первого экрана: #{lead_subtitle_color}
-    p Фотография-фон первого экрана: #{lead_photo_path}
-    p Цвет заголовков сайта: #{name_color}
-    p Цвет текстов на сайте: #{text_color}
-    p Название раздела О проекте: #{about_name}
-    p Описание проекта: #{about_text}
-    p Фотография для раздела О вашем проекте: #{about_photo_path}
-    p Название раздела Клиенты: #{client_name}
-    p Перечисление клиентов: #{client_list}
-    p Название раздела Фото: #{photo_name}
-    p Фото : #{gallery_list_path}
-    p Название раздела Преимущества: #{plus_name}
-    p Перечисление преимуществ: #{plus_list}
-    p Название раздела Этапы работы: #{plan_name}
-    p Перечисление этапов работы: #{plan_list}
-    p Название раздела Призыв: #{button_name}
-    p Перечисление призывов: #{button_list}
-    p Название раздела Контакты: #{contact_name}
-    p Текст раздела Контакты: #{contact_text}
-    p Телефон: #{phone_number}
-    p ВК: #{vk}
-    p ТГ: #{tg}
-    p Электронная почта: #{mail}
-    p Название раздела Адрес: #{address_name}
-    p Физический адрес: #{address}
-    p Ссылка на адрес: #{map_link}
+    a(href='../archive/' + id_site, class='button_unicode', style='margin: 10px')  Скачать сайт &#128190;
+    a(href='../show_site/' + id_site, class='button_unicode', style='margin: 10px')  Просмотр сайта &rarr;
+    a(href='../change_site/' + id_site, class='button_unicode', style='margin: 10px')  Редактировать &#9997;
+    p(style='margin-top: 20px', class='question') Название вкладки*: 
+    p.answer #{title}
+    p.question Фавикон и логотип: 
+    p.answer #{icon_path}
+    p.question Цвет фона: 
+    p.answer #{body_background}
+    p.question Заголовок первого экрана:
+    p.answer #{lead_name}
+    p.question Цвет заголовка первого экрана: 
+    p.answer #{lead_name_color}
+    p.question Подзаголовок первого экрана: 
+    p.answer #{lead_subtitle}
+    p.question Цвет подзаголовка первого экрана: 
+    p.answer #{lead_subtitle_color}
+    p.question Фотография-фон первого экрана: 
+    p.answer #{lead_photo_path}
+    p.question Цвет заголовков сайта: 
+    p.answer #{name_color}
+    p.question Цвет текстов на сайте: 
+    p.answer #{text_color}
+    p.question Название раздела О проекте: 
+    p.answer #{about_name}
+    p.question Описание проекта: 
+    p.answer #{about_text}
+    p.question Фотография для раздела О вашем проекте: 
+    p.answer #{about_photo_path}
+    p.question Название раздела Клиенты: 
+    p.answer #{client_name}
+    p.question Перечисление клиентов: 
+    p.answer #{client_list}
+    p.question Название раздела Фото: 
+    p.answer #{photo_name}
+    p.question Фото : 
+    p.answer #{gallery_list_path}
+    p.question Название раздела Преимущества: 
+    p.answer #{plus_name}
+    p.question Перечисление преимуществ: 
+    p.answer #{plus_list}
+    p.question Название раздела Этапы работы: 
+    p.answer #{plan_name}
+    p.question Перечисление этапов работы: 
+    p.answer #{plan_list}
+    p.question Название раздела Призыв: 
+    p.answer #{button_name}
+    p.question Перечисление призывов: 
+    p.answer #{button_list}
+    p.question Название раздела Контакты: 
+    p.answer #{contact_name}
+    p.question Текст раздела Контакты: 
+    p.answer #{contact_text}
+    p.question Телефон: 
+    p.answer #{phone_number}
+    p.question ВК: 
+    p.answer #{vk}
+    p.question ТГ: 
+    p.answer #{tg}
+    p.question Электронная почта: 
+    p.answer #{mail}
+    p.question Название раздела Адрес: 
+    p.answer #{address_name}
+    p.question Физический адрес: 
+    p.answer #{address}
+    p.question Ссылка на адрес: 
+    p.answer #{map_link}
 
     a(href="/", class='button_to_main') На главную

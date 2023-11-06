@@ -1,0 +1,17 @@
+.button_to_main {
+    border: 2px solid rgb(34,33,38);
+    color: rgb(34,33,38);
+    display: inline-block;
+    padding: 5px 15px;
+    font-size: 18px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    border-radius: 30px;
+    margin: 25px 10px;
+}
+
+.bordered {
+    border: 2px solid #bf4f31;
+  }

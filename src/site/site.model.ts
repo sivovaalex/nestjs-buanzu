@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+//import { User } from '../user/user.model';
 
 @Entity()
 export class Site extends BaseEntity {
@@ -13,12 +14,6 @@ export class Site extends BaseEntity {
 
   @Column({ nullable: true })
   icon_path?: string;
-  // @Column('varchar', { array: true })
-  // icon_path: Express.Multer.File[];
-  // @Column()
-  // icon_path?: string[];
-  // @Column('varchar', { array: true, nullable: true })
-  // icon_path?: string[];
 
   @Column({ nullable: true })
   body_background?: string;
@@ -57,12 +52,6 @@ export class Site extends BaseEntity {
   photo_name?: string;
   @Column({ nullable: true })
   gallery_list_path?: string;
-  // @Column('varchar', { array: true })
-  // gallery_list_path: Express.Multer.File[];
-  // @Column()
-  // gallery_list_path?: string[];
-  // @Column('varchar', { array: true, nullable: true })
-  // gallery_list_path?: string[];
 
   @Column({ nullable: true })
   plus_name?: string;
@@ -109,12 +98,13 @@ export class Site extends BaseEntity {
   @Column({ nullable: true })
   map_link?: string;
 
+  // @ManyToOne(() => User, (user) => user.id_sites)
+  //   id_user: User;
+
   constructor(
     title?: string,
     site_name?: string,
-    //icon_path?: Express.Multer.File[],
     icon_path?: string,
-    //icon_path?: string[],
     body_background?: string,
     lead_name?: string,
     lead_name_color?: string,
@@ -129,9 +119,7 @@ export class Site extends BaseEntity {
     client_name?: string,
     client_list?: string,
     photo_name?: string,
-    //gallery_list_path?: Express.Multer.File[],
     gallery_list_path?: string,
-    //gallery_list_path?: string[],
     plus_name?: string,
     plus_list?: string,
     plan_name?: string,

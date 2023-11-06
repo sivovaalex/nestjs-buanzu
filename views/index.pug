@@ -9,5 +9,8 @@ html
     a(href="create", class='button_create') Создать новый сайт
     ul
       each post in posts
-        li.site #{post.site_name}
-          a(href='sites/' + post.id_site, class='button_to_site')  Открыть сайт
+        li.site
+          p #{post.site_name}
+          a(href='sites/' + post.id_site, class='button_to_site')  Открыть опрос
+          a(href='show_site/' + post.id_site, class='button_unicode')  Просмотр сайта &rarr;
+          a(href='change_site/' + post.id_site, class='button_unicode')  Редактировать &#9997;

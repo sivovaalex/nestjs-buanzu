@@ -1,0 +1,21 @@
+doctype html
+html(lang='ru')
+  head
+    style
+        include ../styles/show_site.css
+        include ../../static_general/style.css
+  body
+    a(href="/", class='button_to_main') На главную
+    div= pugContent
+//- html
+//- head
+//-   // Подключение стилей
+//-   style(type='text/css')= cssContent
+//-   style
+//-     include ../styles/show_site.css
+
+//- body(class='bordered')
+//-   // Включение HTML кода из файла site_1.html
+//-   include htmlPath
+
+

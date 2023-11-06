@@ -36,11 +36,12 @@ ul li.site a.button_to_site {
     text-align: center;
     opacity: 0.9;
     padding: 8px 10px;
-    max-width: 150px;
+    max-width: 170px;
 }
 ul li.site a.button_to_site:hover {
     opacity: 1
 }
+/*-- create-site.pug*/
 form{
     display: flex;
     flex-direction: column;
@@ -92,6 +93,7 @@ button {
     background-color: rgb(234,236,231);
     max-width: 300px;
 }
+/*--create-site.pug*/
 
 .button_download {
     border: 2px solid rgb(201,84,51);
@@ -142,3 +144,26 @@ button {
     background-color: rgb(234,236,231);
     max-width: 300px;
 }
+
+.button_unicode {
+    margin-top: 10px;
+    font-size: 16px;
+    text-decoration: none;
+    background-color: rgb(201,84,51);
+    color: rgb(234,236,231);
+    text-align: center;
+    opacity: 0.9;
+    padding: 8px 10px;
+    max-width: 170px;
+}
+
+/*-- site.pug*/
+p.question {
+    color: #222126;
+    font-weight: 550; 
+}
+
+p.answer {
+    color: #222126;
+}
+/*site.pug --*/

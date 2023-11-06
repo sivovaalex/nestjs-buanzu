@@ -49,7 +49,7 @@ export class SiteService {
       <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       ${site.title ? "<title>" + site.title + "</title>" : ""}
-      <meta name="description" content="{lead_name}">
+      <meta name="description" content="${site.lead_name}">
       <link rel="icon" href=${site.icon_path ? site.icon_path : "static/images/buanzu_logo.ico"} type="image/x-icon">
       <link rel="stylesheet" href="static/style.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -72,9 +72,9 @@ export class SiteService {
       </header>
       ${(site.lead_name) ? '<section class="home" id="home" style="' +
         (site.lead_photo_path? 'background-image: url('+site.lead_photo_path+');' : '') +
-        'color: rgb('+site.lead_name_color + ')">\n<div class="home_header">'+
+        'color: '+site.lead_name_color + '">\n<div class="home_header">'+
         site.lead_name + '</div>\n' +
-        (site.lead_subtitle? '<h1 style="color: rgb('+site.lead_subtitle_color+')">'+site.lead_subtitle+'</h1></section>\n':'') +
+        (site.lead_subtitle? '<h1 style="color: '+site.lead_subtitle_color+'">'+site.lead_subtitle+'</h1></section>\n':'') +
         '</div></section>': ''}
       ${(site.about_name && site.about_text) ? '<section class="about" id="about">' +
         '<div class="inner"><h1 style="color: '+ site.name_color + '">' + site.about_name + '</h1>' +
@@ -102,7 +102,7 @@ export class SiteService {
         site.plan_list.split(";").map(plan => `<li>${plan}</li>`).join('') +
         '</ol></div></section>' : ''}
       ${(site.button_name && site.button_list) ? 
-        '<section class="inner" id="button">' +
+        '<section class="call_button" id="call_button">' +
         '<div class="inner"><h1 style="padding: 20px 0; color:' + site.name_color + '">' + site.button_name + '</h1>' +
         htmlButton + '</div></section>' : ''}
       ${(site.contact_name && (site.contact_text || site.phone_number || site.vk || site.tg || site.mail)) ? 
@@ -138,4 +138,169 @@ export class SiteService {
     return htmlSiteContent;
   }
 
+  generatePugPlus(site): string {
+    // подготовим плюсы
+    let PugPlus = '';
+    if (site.plus_name && site.plus_list){
+      const plusArray: string[] = site.plus_list.split(';');
+      plusArray.forEach((plus) => {
+        if (plus.includes('(') && plus.includes(')')){
+          let regexPlus = /^(.*?)\((.*?)\)$/;
+          let matchPlus = plus.match(regexPlus);
+          if (matchPlus) {
+            PugPlus += `\n            .card
+              h2 ${matchPlus[1]}
+              p ${matchPlus[2]}`;
+          }
+        } else {
+          PugPlus += `\n            .card 
+              h2 ${plus}`;
+        }
+      })
+    }
+    return PugPlus;
+  }  
+
+  generatePugButton(site): string {
+    let PugButton = '';
+    if (site.button_name && site.button_list) {
+      const buttonArray: string[] = site.button_list.split(';');
+      buttonArray.forEach((button) => {
+        if (button.includes('(') && button.includes(')')) {
+          let regexButton = /^(.*?)\((.*?)\)$/;
+          let matchButton = button.match(regexButton);
+          if (matchButton) {
+            PugButton += `\n          a.button(href='${matchButton[2]}' style='border: 2px solid ${site.name_color}; box-shadow: 7px 7px 7px ${site.name_color}; color: ${site.name_color};') ${matchButton[1]}
+            br`;
+          }
+        }
+      });
+    }
+    return PugButton;
+  }
+
+  generatePugSiteContent(site): string {
+    const PugPlus = this.generatePugPlus(site);
+    const PugButton = this.generatePugButton(site);
+    const PugSiteContent = `doctype html
+html(lang='ru')
+  head
+    style
+      include ../../styles/show_site.css
+      include ../../static_general/style.css
+  body
+    a(href="/", class='button_to_main') На главную
+    a(href="/sites/${site.id_site}", class='button_to_main', style="color: #bf4f31") Открыть опрос
+    div(class='bordered' style='background: ${site.body_background}')
+      ${(site.lead_name) ? `section#home.home(style="${(site.lead_photo_path) ? `background-image: url(${site.lead_photo_path});` : ''}color: ${site.lead_name_color}")
+        .home_header ${site.lead_name}
+        ${(site.lead_subtitle) ? `h1(style="color: ${site.lead_subtitle_color}") ${site.lead_subtitle}` : ''}`
+      : ''}
+      ${(site.about_name && site.about_text) ? `section#about.about
+        .inner
+          h1(style="color: ${site.name_color}") ${site.about_name}
+          .about_container
+            img.about_photo(src="${site.about_photo_path}" alt="Фото")
+            .about_text(style="color:${site.text_color}") ${site.about_text}`
+      : ""}
+      ${(site.client_name && site.client_list) ? `section#client.client
+        .inner
+          h1(style="padding: 20px 0; color:${site.name_color}") ${site.client_name}
+          ul.border(style="color:${site.text_color}")
+            ${site.client_list.split(";").map(client => 'li '+ client).join('\n            ')}`
+      : ""}
+      ${(site.photo_name && site.gallery_list_path) ? `section#gallery.gallery
+        .inner
+          h1(style="color: ${site.name_color}") ${site.photo_name}
+          .gallery
+            ${site.gallery_list_path.split(";").map(gallery_photo => `.gallery_photo
+              img(src='static/images/photos/${gallery_photo}' alt='photo')`).join('\n              ')}`
+      : ''}
+      ${(site.plus_name && site.plus_list) ? `section#plus.plus
+        .inner
+          h1(style="padding: 20px 0; color:${site.name_color}") ${site.plus_name}
+          .card-container(style="color:${site.text_color}")`+ PugPlus
+      : ''}
+      ${(site.plan_name && site.plan_list) ? `section#plan.plan
+        .inner
+          h1(style="padding: 20px 0; color:${site.name_color}") ${site.plan_name}
+          ol.bullet(style="color:${site.text_color}")
+            ${site.plan_list.split(";").map(plan => `li ${plan}`).join('\n            ')}`
+      : ''}
+      ${(site.button_name && site.button_list) ? `section#call_button.call_button
+        .inner(style="display: flex;flex-direction: column;align-items: center;")
+          h1(style="padding: 20px 0; color:${site.name_color}") ${site.button_name}` + PugButton
+      : ''}
+      ${(site.contact_name && (site.contact_text || site.phone_number || site.vk || site.tg || site.mail)) ? 
+        `section#contact.contact
+        h1(style="color:${site.name_color}") ${site.contact_name}
+        ${(site.contact_text) ? `.about_text(style='color:${site.text_color};text-align: center;') ${site.contact_text}` : ''}
+        ${(site.phone_number || site.vk || site.tg || site.mail) ? 
+          `ul.social-icons(style="color:${site.text_color}")
+          ${(site.phone_number) ? `
+          li
+          table
+            tbody
+              tr
+                td
+                  a(href='tel:${site.phone_number}')
+                    img(src='static/images/phone.png' width='50' height='50')
+              tr
+                td ${site.phone_number}`:''}
+          ${(site.vk) ? `
+          li
+            table
+              tbody
+                tr
+                  td
+                    a(href='https://vk.com/${site.vk}')
+                      img(src='static/images/vk.png' width='50' height='50')
+                tr
+                  td @${site.vk}`:''}
+          ${(site.tg) ? `
+          li
+            table
+              tbody
+                tr
+                  td
+                    a(href='https://t.me/${site.tg}')
+                      img(src='static/images/tg.png' width='50' height='50')
+                tr
+                  td @${site.tg}`:''}
+          ${(site.mail) ?
+          `li
+            table
+              tbody
+                tr
+                  td
+                    a(href='mailto:${site.mail}')
+                      img(src='static/images/mail.png' width='50' height='50')
+                tr
+                  td ${site.mail}`:''}`
+            : ''}`
+      : ''}
+      ${(site.address_name && site.address) ? `section#address.address
+        .inner
+          .foottable
+            .td
+            h1(style="color:${site.name_color}") ${site.address_name}
+            br
+            p(style="color:${site.text_color}") ${site.address}
+            br
+            iframe(src="https://yandex.ru/map-widget/v1/-/${site.map_link}" frameborder='1' allowfullscreen='true' style='position:relative;')` 
+      : ''}    
+  footer
+    .container
+      .icon-container
+        a(href='https://t.me/buanzu_landing' target='_blank')
+          i.fab.fa-telegram
+        a(href='https://vk.com/buanzu_landing' target='_blank')
+          i.fab.fa-vk
+      .text-container
+        p Создано в платформе для создания лендингов без специальных навыков Буанзу
+      a(href='https://buanzu.ru' target='_blank')
+        img.photo(src='static/images/buanzu_logo.png' alt='Фото')
+    `;
+    return PugSiteContent;
+  }  
 }
