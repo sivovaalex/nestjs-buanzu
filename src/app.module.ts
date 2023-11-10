@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { Site } from './site/site.model';
-import { SiteService } from './site/site.service';
+//import { AppController } from './app.controller';
+// import { Site } from './site/site.model';
 import { MulterModule } from "@nestjs/platform-express";
+import { SiteModule } from './site/site.module';
 
 @Module({
   imports: [
@@ -14,15 +14,17 @@ import { MulterModule } from "@nestjs/platform-express";
       username: 'test',
       password: 'RM0PJop4',
       database: 'testdb',
-      logging: true,
+      //logging: true,
+      autoLoadEntities: true,
       synchronize: true,
-      entities: [Site],
-    }),
+      //entities: [Site],
+    }), 
+    SiteModule
     // MulterModule.register({
     //   dest: './uploads', // путь к папке для сохранения файлов
     // }),
   ],
-  controllers: [AppController],
-  providers: [SiteService],
+  //controllers: [AppController],
+  //providers: [SiteService],
 })
 export class AppModule {}

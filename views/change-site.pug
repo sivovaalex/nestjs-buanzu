@@ -1,0 +1,87 @@
+doctype html
+html
+  head
+    title Создание сайта в Буанзу
+    link(rel='icon', href='../static/images/favicon.ico', type='image/x-icon')
+  style
+    include ../styles/create.css
+  body
+    h1 Новый сайт
+    form(method="POST" action=`/change_site/${site.id_site}` enctype="multipart/form-data")
+      label Название вкладки*
+        img(src='../static/images/photo_title.png', alt='photo_title')
+        //- img(src='views/img/21.png', alt='photo_title')
+        input(type="text" name="title" minlength="3" maxlength="100" value=site.title required)
+      label Название сайта*
+        img(src='../static/images/photo_sitename.png', alt='photo_sitename')
+        input(type="text" name="site_name" minlength="3" maxlength="50" value=site.site_name required)
+      label Фавикон и логотип
+        img(src='../static/images/photo_favicon.png', alt='photo_favicon')
+        input(type="file" name="icon" accept="image/png, image/jpeg, image/jpg, image/ico" value=site.icon_path multiple)
+      label Цвет фона
+        input(type="color" name="body_background" value=site.body_background)
+      label Заголовок первого экрана
+        img(src='../static/images/photo_leadname.png', alt='photo_leadname')
+        input(type="text" name="lead_name" minlength="3" maxlength="100" value=site.lead_name)
+      label Цвет заголовка первого экрана
+        input(type="color" name="lead_name_color" value=site.lead_name_color)
+      label Подзаголовок первого экрана
+        img(src='../static/images/photo_leadsub.png', alt='photo_leadsub')
+        input(type="text" name="lead_subtitle" minlength="3" maxlength="200" value=site.lead_subtitle)
+      label Цвет подзаголовка первого экрана
+        input(type="color" name="lead_subtitle_color" value=site.lead_subtitle_color)
+      label Фотография-фон первого экрана
+        input(type="file" name="lead_photo" accept="image/png, image/jpeg, image/jpg" value=site.lead_photo_path)
+      label Цвет заголовков сайта
+        input(type="color" name="name_color" value=site.name_color)
+      label Цвет текстов на сайте
+        input(type="color" name="text_color" value=site.text_color)
+      label Название раздела О проекте
+        input(type="text" name="about_name" minlength="3" maxlength="100" value=site.about_name)
+      label Описание проекта
+        input(type="textarea" name="about_text" minlength="3" maxlength="500" value=site.about_text)
+      label Фотография для раздела О вашем проекте
+        input(type="file" name="about_photo" accept="image/png, image/jpeg, image/jpg" value=site.about_photo_path)
+      label Название раздела Клиенты
+        input(type="text" name="client_name" minlength="3" maxlength="100" value=site.client_name)
+      label Перечисление клиентов
+        input(type="textarea" name="client_list" minlength="3" maxlength="500" value=site.client_list)
+      label Название раздела Фото
+        input(type="text" name="photo_name" minlength="3" maxlength="100" value=site.photo_name)
+      label Фото
+        input(type="file" name="photo_path_list" accept="image/png, image/jpeg, image/jpg" value=site.gallery_list_path multiple)
+      label Название раздела Преимущества
+        input(type="text" name="plus_name" minlength="3" maxlength="100" value=site.plus_name)
+      label Перечисление преимуществ
+        input(type="textarea" name="plus_list" minlength="3" maxlength="500" value=site.plus_list)
+      label Название раздела Этапы работы
+        input(type="text" name="plan_name" minlength="3" maxlength="100" value=site.plan_name)
+      label Перечисление этапов работы
+        input(type="textarea" name="plan_list" minlength="3" maxlength="500" value=site.plan_list)
+      label Название раздела Призыв
+        input(type="text" name="button_name" minlength="3" maxlength="100" value=site.button_name)
+      label Перечисление призывов
+        input(type="textarea" name="button_list" minlength="3" maxlength="500" value=site.button_list)
+      label Название раздела Контакты
+        input(type="text" name="contact_name" minlength="3" maxlength="100" value=site.contact_name)
+      label Текст раздела Контакты
+        input(type="textarea" name="contact_text" minlength="3" maxlength="200" value=site.contact_text)
+      label Телефон
+        input(type="tel" name="phone_number" minlength="10" maxlength="15" value=site.phone_number)
+      label ВК
+        img(src='../static/images/photo_vk.png', alt='photo_vk')
+        input(type="text" name="vk" minlength="1" maxlength="100" value=site.vk)
+      label ТГ
+        img(src='../static/images/photo_tg', alt='photo_tg')
+        input(type="text" name="tg" minlength="1" maxlength="100" value=site.tg)
+      label Электронная почта
+        input(type="email" name="mail" minlength="3" maxlength="100" value=site.mail)
+      label Название раздела Адрес
+        input(type="text" name="address_name" minlength="3" maxlength="200" value=site.address_name)
+      label Физический адрес
+        input(type="textarea" name="address" minlength="3" maxlength="200" value=site.address)
+      label Ссылка на адрес
+        img(src='../static/images/photo_map.png', alt='photo_map')
+        input(type="text" name="map_link" minlength="3" maxlength="40" value=site.map_link)
+
+      button(type="submit") Редактировать лендинг

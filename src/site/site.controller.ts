@@ -7,13 +7,16 @@ import {
   Post,
   Redirect,
   Render,
+  Delete,
   NotFoundException,
   UseInterceptors, UploadedFile, UploadedFiles,
   Res,
+  Patch,
 } from "@nestjs/common";
-import { Site } from './site/site.model';
-import { SiteDto } from './site/site.dto';
-import { SiteService } from './site/site.service';
+//import { Site } from './site/site.model';
+import { Site } from './site.entity';
+import { SiteDto } from './site.dto';
+import { SiteService } from './site.service';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as archiver from 'archiver';
@@ -28,38 +31,41 @@ interface FileParams {
 }
 
 @Controller()
-export class AppController{
+export class SiteController{
   constructor(private siteService: SiteService) {}
-
+//начальная страница
     @Get()
     @Render('index')
     async index() {
+        //console.log('index');
         return {
-            posts: await Site.find(),
+            // posts: await Site.find(),
+            posts: await this.siteService.find(),
         };
     }
-
+//вывод данных о сайте с id_site (при нажатии на этот сайт)
     @Get('sites/:id_site')
     @Render('site')
     async getByIdSite(@Param('id_site', ParseIntPipe) id_site: number) {
-        const site = await Site.findOne(
-            {
-                where:
-                    {
-                      id_site: id_site
-                    }
-            }
-        );
-        console.log(site);
-        return site;
+        // const site = await Site.findOne(
+        //     {
+        //         where:
+        //             {
+        //               id_site: id_site
+        //             }
+        //     }
+        // );
+        const site = this.siteService.getSiteById(id_site)
+        console.log(site, id_site);
+        return {site, id_site};
     }
-
+//форма для заполнения информации о сайте с дальнейшем созданием
     @Get('create')
     @Render('create-site')
     getForm(): void {
         return;
     }
-
+//отправка запроса на создание сайта: запись в бд, генерация сайта
     @Post('sites')
     @Redirect()
     @UseInterceptors(FileFieldsInterceptor([
@@ -83,43 +89,46 @@ export class AppController{
       console.log(files);
       console.log(Object.entries(files));
   
-      const site = new Site(
-        body.title,
-        body.site_name,
-        files.icon ? files.icon[0].originalname : null, // сохраняем пути для иконки
-        body.body_background,
-        body.lead_name,
-        body.lead_name_color,
-        body.lead_subtitle,
-        body.lead_subtitle_color,
-        files.lead ? files.lead[0].originalname : null,
-        body.name_color,
-        body.text_color,
-        body.about_name,
-        body.about_text,
-        files.about ? files.about[0].originalname : null,
-        body.client_name,
-        body.client_list,
-        body.photo_name,
-        files.gallery ? files.gallery.map((file) => file.originalname).join(';') : null,
-        body.plus_name,
-        body.plus_list,
-        body.plan_name,
-        body.plan_list,
-        body.button_name,
-        body.button_list,
-        body.contact_name,
-        body.contact_text,
-        body.phone_number,
-        body.vk,
-        body.tg,
-        body.mail,
-        body.address_name,
-        body.address,
-        body.map_link,
-      );
-      await site.save();
-      const url_id = Number({ id_site: site.getIdSite() }.id_site);
+      // const site = new Site(
+      //   body.title,
+      //   body.site_name,
+      //   files.icon ? files.icon[0].originalname : null, // сохраняем пути для иконки
+      //   body.body_background,
+      //   body.lead_name,
+      //   body.lead_name_color,
+      //   body.lead_subtitle,
+      //   body.lead_subtitle_color,
+      //   files.lead ? files.lead[0].originalname : null,
+      //   body.name_color,
+      //   body.text_color,
+      //   body.about_name,
+      //   body.about_text,
+      //   files.about ? files.about[0].originalname : null,
+      //   body.client_name,
+      //   body.client_list,
+      //   body.photo_name,
+      //   files.gallery ? files.gallery.map((file) => file.originalname).join(';') : null,
+      //   body.plus_name,
+      //   body.plus_list,
+      //   body.plan_name,
+      //   body.plan_list,
+      //   body.button_name,
+      //   body.button_list,
+      //   body.contact_name,
+      //   body.contact_text,
+      //   body.phone_number,
+      //   body.vk,
+      //   body.tg,
+      //   body.mail,
+      //   body.address_name,
+      //   body.address,
+      //   body.map_link,
+      // );
+      // await site.save();
+      const site = await this.siteService.saveSite(body, files);
+      console.log(site);
+      //const url_id = Number({ id_site: site.getIdSite() }.id_site);
+      const url_id = Number(site.id_site);
       return { url: 'archive/' + url_id, statusCode: 301 };
     }
 
@@ -128,14 +137,14 @@ export class AppController{
     @Render('archive')
     //получать файл (архив) с данными
     async archiveByIdSite(@Param('id_site', ParseIntPipe) id_site: number) {
-        const site = await Site.findOne(
-            {
-                where:
-                    {
-                        id_site: id_site
-                    }
-            }
-        );
+        // const site = await this.siteRepository.findOne({ where: { id_site } });
+        const site = await this.siteService.getSiteById(id_site)
+            // {
+            //     where:
+            //         {
+            //             id_site: id_site
+            //         }
+            // });
 
         // Проверяем, есть ли статья с указанным id
         const dirAllCreatedSites = 'history_sites'
@@ -221,7 +230,7 @@ export class AppController{
             outputArchivePath,
         };
     }
-
+//показ сгенерированного сайта с id_site 
     @Get('show_site/:id_site')
     showSite(@Param('id_site', ParseIntPipe) id_site: number, @Res() res: Response) {
       //const htmlPath = `history_sites/site_${idSite}/site_${idSite}.html`;
@@ -246,5 +255,32 @@ export class AppController{
       //res.render(pugTemplate, { htmlPath, cssPath });
     }
 
+    // @Get('change_site/:id_site')
+    // @Render('change-site')
+    // async getSite(@Param('id_site') id_site: number): Promise<SiteDto> {
+    //   return this.siteService.getSiteById(id_site);
+    // }
+  
+    // @Patch('change_site/:id_site')
+    // async updateSite(@Param('id_site') id_site: number, @Body() siteData: SiteDto): Promise<SiteDto> {
+    //   return this.siteService.updateSite(id_site, siteData);
+    // }
+    @Get('change_site/:id_site')
+    @Render('change-site')
+    async getSite(@Param('id_site') id_site: number): Promise<{ site: SiteDto, id_site: number }> {
+      const site = await this.siteService.getSiteById(id_site);
+      return { site, id_site };
+    }
 
+    @Patch('change_site/:id_site')
+    async updateSite(@Param('id_site') id_site: number, @Body() siteData: SiteDto): Promise<{ site: SiteDto }> {
+      await this.siteService.updateSite(id_site, siteData);
+      return { site: siteData };
+    }
+
+
+    @Delete('delete/:id_site')
+    async deleteSite(@Param('id_site') id_site: string): Promise<void> {
+      return this.siteService.deleteSite(id_site);
+    }
   }

@@ -1,8 +1,81 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+//import {Site} from './site.model';
+import { Site } from './site.entity';
+import { Repository } from 'typeorm';
+import { SiteDto } from './site.dto';
 
 @Injectable()
 export class SiteService {
-    generateHtmlPlus(site): string {
+
+  //constructor(@InjectRepository(Site) private readonly siteRepository: Repository<Site>) {}
+  constructor(@InjectRepository(Site) private siteRepository: Repository<Site>) {}
+//find all sites for show by index
+  async find(): Promise<Site[]> {
+    return this.siteRepository.find();
+  }
+
+  async getSiteById(id_site: number): Promise<SiteDto> {
+    const site = await this.siteRepository.findOne({ where: { id_site } });
+    const { id_site: _, ...siteData } = site;
+    return siteData;
+  }
+
+  async updateSite(id_site: number, siteData: SiteDto): Promise<SiteDto> {
+    await this.siteRepository.update(id_site, siteData);
+    return siteData;
+  }
+
+  async deleteSite(id_site: string): Promise<void> {
+    await this.siteRepository.delete(id_site);
+  }
+
+  async saveSite(createSiteDto: SiteDto, files: any): Promise<Site> {
+
+    const iconPath = files.icon ? files.icon[0].originalname : null;
+    const leadPath = files.lead ? files.lead[0].originalname : null;
+    const aboutPath = files.about ? files.about[0].originalname : null;
+    const galleryPath = files.gallery ? files.gallery.map((file) => file.originalname).join(';') : null;
+
+    const site = new Site();
+    site.title = createSiteDto.title;
+    site.site_name = createSiteDto.site_name;
+    site.icon_path = iconPath;
+    site.body_background = createSiteDto.body_background;
+    site.lead_name = createSiteDto.lead_name;
+    site.lead_name_color = createSiteDto.lead_name_color;
+    site.lead_subtitle = createSiteDto.lead_subtitle;
+    site.lead_subtitle_color = createSiteDto.lead_subtitle_color;
+    site.lead_photo_path = leadPath;
+    site.name_color = createSiteDto.name_color;
+    site.text_color = createSiteDto.text_color;
+    site.about_name = createSiteDto.about_name;
+    site.about_text = createSiteDto.about_text;
+    site.about_photo_path = aboutPath;
+    site.client_name = createSiteDto.client_name;
+    site.client_list = createSiteDto.client_list;
+    site.photo_name = createSiteDto.photo_name;
+    site.gallery_list_path = galleryPath;
+    site.plus_name = createSiteDto.plus_name;
+    site.plus_list = createSiteDto.plus_list;
+    site.plan_name = createSiteDto.plan_name;
+    site.plan_list = createSiteDto.plan_list;
+    site.button_name = createSiteDto.button_name;
+    site.button_list = createSiteDto.button_list;
+    site.contact_name = createSiteDto.contact_name;
+    site.contact_text = createSiteDto.contact_text;
+    site.phone_number = createSiteDto.phone_number;
+    site.vk = createSiteDto.vk;
+    site.tg = createSiteDto.tg;
+    site.mail = createSiteDto.mail;
+    site.address_name = createSiteDto.address_name;
+    site.address = createSiteDto.address;
+    site.map_link = createSiteDto.map_link;
+
+    return this.siteRepository.save(site);
+  }
+
+  generateHtmlPlus(site): string {
     // подготовим плюсы
     let htmlPlus = '';
     if (site.plus_name && site.plus_list){
@@ -302,5 +375,6 @@ html(lang='ru')
         img.photo(src='static/images/buanzu_logo.png' alt='Фото')
     `;
     return PugSiteContent;
-  }  
+  }
+
 }
