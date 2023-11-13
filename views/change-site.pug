@@ -1,13 +1,14 @@
 doctype html
 html
   head
-    title Создание сайта в Буанзу
+    title Редактирование сайта в Буанзу
     link(rel='icon', href='../static/images/favicon.ico', type='image/x-icon')
   style
     include ../styles/create.css
   body
-    h1 Новый сайт
-    form(method="POST" action=`/change_site/${site.id_site}` enctype="multipart/form-data")
+    h1 Редактирование сайта
+    //-form(action=`/change_site/${id_site}` method="POST" enctype="multipart/form-data")
+    form(action=`/change_site/${id_site}` method="POST")
       label Название вкладки*
         img(src='../static/images/photo_title.png', alt='photo_title')
         //- img(src='views/img/21.png', alt='photo_title')
@@ -15,7 +16,7 @@ html
       label Название сайта*
         img(src='../static/images/photo_sitename.png', alt='photo_sitename')
         input(type="text" name="site_name" minlength="3" maxlength="50" value=site.site_name required)
-      label Фавикон и логотип
+      //- label Фавикон и логотип
         img(src='../static/images/photo_favicon.png', alt='photo_favicon')
         input(type="file" name="icon" accept="image/png, image/jpeg, image/jpg, image/ico" value=site.icon_path multiple)
       label Цвет фона
@@ -30,7 +31,7 @@ html
         input(type="text" name="lead_subtitle" minlength="3" maxlength="200" value=site.lead_subtitle)
       label Цвет подзаголовка первого экрана
         input(type="color" name="lead_subtitle_color" value=site.lead_subtitle_color)
-      label Фотография-фон первого экрана
+      //- label Фотография-фон первого экрана
         input(type="file" name="lead_photo" accept="image/png, image/jpeg, image/jpg" value=site.lead_photo_path)
       label Цвет заголовков сайта
         input(type="color" name="name_color" value=site.name_color)
@@ -40,7 +41,7 @@ html
         input(type="text" name="about_name" minlength="3" maxlength="100" value=site.about_name)
       label Описание проекта
         input(type="textarea" name="about_text" minlength="3" maxlength="500" value=site.about_text)
-      label Фотография для раздела О вашем проекте
+      //- label Фотография для раздела О вашем проекте
         input(type="file" name="about_photo" accept="image/png, image/jpeg, image/jpg" value=site.about_photo_path)
       label Название раздела Клиенты
         input(type="text" name="client_name" minlength="3" maxlength="100" value=site.client_name)
@@ -48,7 +49,7 @@ html
         input(type="textarea" name="client_list" minlength="3" maxlength="500" value=site.client_list)
       label Название раздела Фото
         input(type="text" name="photo_name" minlength="3" maxlength="100" value=site.photo_name)
-      label Фото
+      //- label Фото
         input(type="file" name="photo_path_list" accept="image/png, image/jpeg, image/jpg" value=site.gallery_list_path multiple)
       label Название раздела Преимущества
         input(type="text" name="plus_name" minlength="3" maxlength="100" value=site.plus_name)
@@ -84,4 +85,4 @@ html
         img(src='../static/images/photo_map.png', alt='photo_map')
         input(type="text" name="map_link" minlength="3" maxlength="40" value=site.map_link)
 
-      button(type="submit") Редактировать лендинг
+      button(type="submit") Сохранить изменения

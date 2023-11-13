@@ -38,6 +38,17 @@ ul li.site a.button_to_site {
     padding: 8px 10px;
     max-width: 170px;
 }
+.button_to_site {
+    margin-top: 10px;
+    font-size: 16px;
+    text-decoration: none;
+    background-color: rgb(201,84,51);
+    color: rgb(234,236,231);
+    text-align: center;
+    opacity: 0.9;
+    padding: 8px 10px;
+    max-width: 170px;
+}
 ul li.site a.button_to_site:hover {
     opacity: 1
 }

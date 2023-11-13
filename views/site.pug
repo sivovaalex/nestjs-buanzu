@@ -1,77 +1,77 @@
 doctype html
 html
   head
-    title #{title}
+    title #{site.title}
   style
     include ../styles/create.css
   body
-    h1 Название сайта*: #{site_name}
+    h1 Название сайта*: #{site.site_name}
     a(href='../archive/' + id_site, class='button_unicode', style='margin: 10px')  Скачать сайт &#128190;
     a(href='../show_site/' + id_site, class='button_unicode', style='margin: 10px')  Просмотр сайта &rarr;
     a(href='../change_site/' + id_site, class='button_unicode', style='margin: 10px')  Редактировать &#9997;
     p(style='margin-top: 20px', class='question') Название вкладки*: 
-    p.answer #{title}
+    p.answer #{site.title}
     p.question Фавикон и логотип: 
-    p.answer #{icon_path}
+    p.answer #{site.icon_path}
     p.question Цвет фона: 
-    p.answer #{body_background}
+    p.answer #{site.body_background}
     p.question Заголовок первого экрана:
-    p.answer #{lead_name}
+    p.answer #{site.lead_name}
     p.question Цвет заголовка первого экрана: 
-    p.answer #{lead_name_color}
+    p.answer #{site.lead_name_color}
     p.question Подзаголовок первого экрана: 
-    p.answer #{lead_subtitle}
+    p.answer #{site.lead_subtitle}
     p.question Цвет подзаголовка первого экрана: 
-    p.answer #{lead_subtitle_color}
+    p.answer #{site.lead_subtitle_color}
     p.question Фотография-фон первого экрана: 
-    p.answer #{lead_photo_path}
+    p.answer #{site.lead_photo_path}
     p.question Цвет заголовков сайта: 
-    p.answer #{name_color}
+    p.answer #{site.name_color}
     p.question Цвет текстов на сайте: 
-    p.answer #{text_color}
+    p.answer #{site.text_color}
     p.question Название раздела О проекте: 
-    p.answer #{about_name}
+    p.answer #{site.about_name}
     p.question Описание проекта: 
-    p.answer #{about_text}
+    p.answer #{site.about_text}
     p.question Фотография для раздела О вашем проекте: 
-    p.answer #{about_photo_path}
+    p.answer #{site.about_photo_path}
     p.question Название раздела Клиенты: 
-    p.answer #{client_name}
+    p.answer #{site.client_name}
     p.question Перечисление клиентов: 
-    p.answer #{client_list}
+    p.answer #{site.client_list}
     p.question Название раздела Фото: 
-    p.answer #{photo_name}
+    p.answer #{site.photo_name}
     p.question Фото : 
-    p.answer #{gallery_list_path}
+    p.answer #{site.gallery_list_path}
     p.question Название раздела Преимущества: 
-    p.answer #{plus_name}
+    p.answer #{site.plus_name}
     p.question Перечисление преимуществ: 
-    p.answer #{plus_list}
+    p.answer #{site.plus_list}
     p.question Название раздела Этапы работы: 
-    p.answer #{plan_name}
+    p.answer #{site.plan_name}
     p.question Перечисление этапов работы: 
-    p.answer #{plan_list}
+    p.answer #{site.plan_list}
     p.question Название раздела Призыв: 
-    p.answer #{button_name}
+    p.answer #{site.button_name}
     p.question Перечисление призывов: 
-    p.answer #{button_list}
+    p.answer #{site.button_list}
     p.question Название раздела Контакты: 
-    p.answer #{contact_name}
+    p.answer #{site.contact_name}
     p.question Текст раздела Контакты: 
-    p.answer #{contact_text}
+    p.answer #{site.contact_text}
     p.question Телефон: 
-    p.answer #{phone_number}
+    p.answer #{site.phone_number}
     p.question ВК: 
-    p.answer #{vk}
+    p.answer #{site.vk}
     p.question ТГ: 
-    p.answer #{tg}
+    p.answer #{site.tg}
     p.question Электронная почта: 
-    p.answer #{mail}
+    p.answer #{site.mail}
     p.question Название раздела Адрес: 
-    p.answer #{address_name}
+    p.answer #{site.address_name}
     p.question Физический адрес: 
-    p.answer #{address}
+    p.answer #{site.address}
     p.question Ссылка на адрес: 
-    p.answer #{map_link}
+    p.answer #{site.map_link}
 
     a(href="/", class='button_to_main') На главную

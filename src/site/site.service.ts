@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 //import {Site} from './site.model';
 import { Site } from './site.entity';
 import { Repository } from 'typeorm';
-import { SiteDto } from './site.dto';
+import { SiteDto, SiteDtoWithPath } from './site.dto';
 
 @Injectable()
 export class SiteService {
@@ -15,15 +15,22 @@ export class SiteService {
     return this.siteRepository.find();
   }
 
+  // async findOne(id_site: number): Promise<Site> {
+  //   return await this.siteRepository.findOne({ where: { id_site } });
+  // }
+
   async getSiteById(id_site: number): Promise<SiteDto> {
     const site = await this.siteRepository.findOne({ where: { id_site } });
     const { id_site: _, ...siteData } = site;
     return siteData;
   }
 
-  async updateSite(id_site: number, siteData: SiteDto): Promise<SiteDto> {
+  //async updateSite(id_site: number, siteData: SiteDto): Promise<SiteDto> {
+    // await this.siteRepository.update(id_site, siteData);
+    // return siteData;
+  async updateSite(id_site: number, siteData: SiteDto): Promise<void> {
+    console.log(siteData);
     await this.siteRepository.update(id_site, siteData);
-    return siteData;
   }
 
   async deleteSite(id_site: string): Promise<void> {

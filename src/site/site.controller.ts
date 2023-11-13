@@ -15,7 +15,7 @@ import {
 } from "@nestjs/common";
 //import { Site } from './site/site.model';
 import { Site } from './site.entity';
-import { SiteDto } from './site.dto';
+import { SiteDto, SiteDtoWithPath } from './site.dto';
 import { SiteService } from './site.service';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -37,9 +37,7 @@ export class SiteController{
     @Get()
     @Render('index')
     async index() {
-        //console.log('index');
         return {
-            // posts: await Site.find(),
             posts: await this.siteService.find(),
         };
     }
@@ -47,17 +45,9 @@ export class SiteController{
     @Get('sites/:id_site')
     @Render('site')
     async getByIdSite(@Param('id_site', ParseIntPipe) id_site: number) {
-        // const site = await Site.findOne(
-        //     {
-        //         where:
-        //             {
-        //               id_site: id_site
-        //             }
-        //     }
-        // );
-        const site = this.siteService.getSiteById(id_site)
+        const site = await this.siteService.getSiteById(id_site);
         console.log(site, id_site);
-        return {site, id_site};
+        return { site, id_site };
     }
 //форма для заполнения информации о сайте с дальнейшем созданием
     @Get('create')
@@ -87,47 +77,10 @@ export class SiteController{
                             gallery?: Express.Multer.File[]
                           }) {
       console.log(files);
+      console.log(body);
       console.log(Object.entries(files));
-  
-      // const site = new Site(
-      //   body.title,
-      //   body.site_name,
-      //   files.icon ? files.icon[0].originalname : null, // сохраняем пути для иконки
-      //   body.body_background,
-      //   body.lead_name,
-      //   body.lead_name_color,
-      //   body.lead_subtitle,
-      //   body.lead_subtitle_color,
-      //   files.lead ? files.lead[0].originalname : null,
-      //   body.name_color,
-      //   body.text_color,
-      //   body.about_name,
-      //   body.about_text,
-      //   files.about ? files.about[0].originalname : null,
-      //   body.client_name,
-      //   body.client_list,
-      //   body.photo_name,
-      //   files.gallery ? files.gallery.map((file) => file.originalname).join(';') : null,
-      //   body.plus_name,
-      //   body.plus_list,
-      //   body.plan_name,
-      //   body.plan_list,
-      //   body.button_name,
-      //   body.button_list,
-      //   body.contact_name,
-      //   body.contact_text,
-      //   body.phone_number,
-      //   body.vk,
-      //   body.tg,
-      //   body.mail,
-      //   body.address_name,
-      //   body.address,
-      //   body.map_link,
-      // );
-      // await site.save();
       const site = await this.siteService.saveSite(body, files);
       console.log(site);
-      //const url_id = Number({ id_site: site.getIdSite() }.id_site);
       const url_id = Number(site.id_site);
       return { url: 'archive/' + url_id, statusCode: 301 };
     }
@@ -228,31 +181,15 @@ export class SiteController{
         return {
             site_name,
             outputArchivePath,
+            id_site
         };
     }
 //показ сгенерированного сайта с id_site 
     @Get('show_site/:id_site')
     showSite(@Param('id_site', ParseIntPipe) id_site: number, @Res() res: Response) {
-      //const htmlPath = `history_sites/site_${idSite}/site_${idSite}.html`;
-      //const cssPath = `history_sites/site_${idSite}/static/style.css`;
-      //const pugTemplate = 'show_site'; // Имя Pug шаблона
-      //const pugFilePath = path.join(__dirname, '..', 'history_sites', 'pugs', `site_${idSite}.pug`);
       console.log('idSite ', id_site)
       const pugFilePath =  `../history_sites/views/site_${id_site}.pug`;
-      // Проверяем существование файлов и папок
-      // if (!fs.existsSync(htmlPath) || !fs.existsSync(cssPath)) {
-      //   res.status(404).send('Сайта не существует');
-      //   return;
-      // }
-      //console.log(pugFilePath, cssPath)
-      // Читаем содержимое файлов
-      //const htmlContent = fs.readFileSync(htmlPath, 'utf8');
-      //const cssContent = fs.readFileSync(cssPath, 'utf8');
-      //const pugContent = fs.readFileSync('history_sites/pugs/tr1.pug', 'utf8');
-      // Рендеринг Pug кода
-      //res.render(pugFilePath, { cssContent });
       res.render(pugFilePath);
-      //res.render(pugTemplate, { htmlPath, cssPath });
     }
 
     // @Get('change_site/:id_site')
@@ -265,19 +202,37 @@ export class SiteController{
     // async updateSite(@Param('id_site') id_site: number, @Body() siteData: SiteDto): Promise<SiteDto> {
     //   return this.siteService.updateSite(id_site, siteData);
     // }
+    // @Get('change_site/:id_site')
+    // @Render('change-site')
+    // async getSite(@Param('id_site') id_site: number): Promise<{ site: SiteDto, id_site: number }> {
+    //   const site = await this.siteService.getSiteById(id_site);
+    //   return { site, id_site };
+    // }
+
+    // @Patch('change_site/:id_site')
+    // @Redirect()
+    // async updateSite(@Param('id_site') id_site: number, @Body() updateSiteDto: SiteDto) {
+    //   await this.siteService.updateSite(id_site, updateSiteDto);
+    //   const id_site_str = id_site.toString();
+    //   return { url: '/sites/'+id_site_str, statusCode: 301 };
+    // }
     @Get('change_site/:id_site')
     @Render('change-site')
-    async getSite(@Param('id_site') id_site: number): Promise<{ site: SiteDto, id_site: number }> {
+    async getSite(@Param('id_site') id_site: number) {
+      console.log('Get change_site')
       const site = await this.siteService.getSiteById(id_site);
-      return { site, id_site };
+      console.log({ site, id_site })
+      return { id_site, site };
     }
-
-    @Patch('change_site/:id_site')
-    async updateSite(@Param('id_site') id_site: number, @Body() siteData: SiteDto): Promise<{ site: SiteDto }> {
-      await this.siteService.updateSite(id_site, siteData);
-      return { site: siteData };
+  
+    @Post('change_site/:id_site')
+    @Redirect('')
+    async updateSite(@Param('id_site') id_site: number, @Body() updateSiteDto: SiteDto) {
+      console.log('Post change_site')
+      console.log(id_site, updateSiteDto)
+      await this.siteService.updateSite(id_site, updateSiteDto);
+      return { url: '/archive/' + id_site, statusCode: 301 };
     }
-
 
     @Delete('delete/:id_site')
     async deleteSite(@Param('id_site') id_site: string): Promise<void> {

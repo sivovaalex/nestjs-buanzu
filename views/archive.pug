@@ -4,8 +4,11 @@ html
         title #{title}
     style
         include ../styles/create.css
+        include ../styles/show_site.css
     body
         h1 Название сайта: #{site_name}
         a(href=outputArchivePath, download, class='button_download') Скачать архив #{outputArchivePath}
         br
-        a(href="/", class='button_to_main') На главную
+        a(href=`/sites/${id_site}`, class='button_to_site') К сайту
+        br
+        a(href=`/`, class='button_to_main') На главную
