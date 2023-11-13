@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 // import { Site } from './site/site.model';
 import { MulterModule } from "@nestjs/platform-express";
 import { SiteModule } from './site/site.module';
+import { UserModule } from './user/user.module'
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { SiteModule } from './site/site.module';
       synchronize: true,
       //entities: [Site],
     }), 
-    SiteModule
+    SiteModule,
+    UserModule
     // MulterModule.register({
     //   dest: './uploads', // путь к папке для сохранения файлов
     // }),
