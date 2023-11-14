@@ -3,12 +3,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SiteService } from './site.service';
 import { SiteController } from './site.controller';
 import { Site } from './site.entity';
+import { UserService } from 'src/user/user.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Site])],
   //exports: [TypeOrmModule],
   providers: [SiteService],
-  controllers: [SiteController],
+  controllers: [SiteController]
 })
 export class SiteModule {}
 
