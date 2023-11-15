@@ -1,3 +1,4 @@
+import { Landing } from './landing/landing.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -7,6 +8,7 @@ import { MulterModule } from "@nestjs/platform-express";
 import { SiteModule } from './site/site.module';
 import { UserModule } from './user/user.module'
 import { AuthModule } from './auth/auth.module';
+import { LandingModule } from './landing/landing.module';
 
 @Module({
   imports: [
@@ -23,6 +25,7 @@ import { AuthModule } from './auth/auth.module';
     SiteModule,
     UserModule,
     AuthModule,
+    LandingModule,
     ConfigModule.forRoot({isGlobal: true}),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

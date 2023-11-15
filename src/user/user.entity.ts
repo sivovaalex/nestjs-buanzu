@@ -1,5 +1,6 @@
+import { Landing } from "src/landing/landing.entity";
 import { Entity, Column, PrimaryGeneratedColumn,
-  UpdateDateColumn, CreateDateColumn } from "typeorm";
+  UpdateDateColumn, CreateDateColumn, OneToMany } from "typeorm";
 
 @Entity()
 export class User {
@@ -11,6 +12,9 @@ export class User {
 
   @Column()
   password: string;
+
+  @OneToMany(() => Landing, (landing) => landing.user)
+  landings: Landing[]
 
   @CreateDateColumn({ type: 'timestamp' })
   createDate: Date;
