@@ -5,10 +5,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 //import { AppController } from './app.controller';
 // import { Site } from './site/site.model';
 import { MulterModule } from "@nestjs/platform-express";
-import { SiteModule } from './site/site.module';
+//import { SiteModule } from './site/site.module';
 import { UserModule } from './user/user.module'
 import { AuthModule } from './auth/auth.module';
 import { LandingModule } from './landing/landing.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -22,7 +24,7 @@ import { LandingModule } from './landing/landing.module';
     //   autoLoadEntities: true,
     //   synchronize: true,
     // }), 
-    SiteModule,
+    //SiteModule,
     UserModule,
     AuthModule,
     LandingModule,
@@ -45,7 +47,7 @@ import { LandingModule } from './landing/landing.module';
     //   dest: './uploads', // путь к папке для сохранения файлов
     // }),
   ],
-  //controllers: [AppController],
-  //providers: [SiteService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
