@@ -41,7 +41,7 @@ export class CreateLandingDto {
     client_name?: string
 
     @IsOptional()
-    client_list?: string
+    client_list?: string[]
 
     @IsOptional()
     photo_name?: string
@@ -50,19 +50,25 @@ export class CreateLandingDto {
     plus_name?: string
 
     @IsOptional()
-    plus_list?: string
+    plus_list?: string[]
+
+    @IsOptional()
+    plus_description_list?: string[]
 
     @IsOptional()
     plan_name?: string
 
     @IsOptional()
-    plan_list?: string
+    plan_list?: string[]
 
     @IsOptional()
     button_name?: string
 
     @IsOptional()
-    button_list?: string
+    button_list?: string[]
+
+    @IsOptional()
+    button_link_list?: string[]
 
     @IsOptional()
     contact_name?: string

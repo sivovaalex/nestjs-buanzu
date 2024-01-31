@@ -105,7 +105,7 @@ section {
 }
 
 header {
-	height:150px;
+	/* height:150px; */
 	position:fixed;
 	z-index:5;
 	left:0px;
@@ -221,6 +221,11 @@ header .menu li a:hover,
 header .menu li.active a {
 	color:#eee;
 	background: rgba(102, 102, 102, 1);
+}
+
+.photo_logo {
+	width: 50px;
+	margin-top: 5px;
 }
 
 .home {
@@ -702,6 +707,10 @@ footer {
 	justify-content: space-between;
   }
   
+  .container_footer {
+	display: flex;
+	align-items: center;
+  }
   .icon-container {
 	display: flex;
 	align-items: center;

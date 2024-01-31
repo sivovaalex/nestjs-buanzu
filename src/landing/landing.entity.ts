@@ -56,8 +56,8 @@ export class Landing {
   @Column({ nullable: true })
   client_name?: string;
 
-  @Column({ nullable: true })
-  client_list?: string;
+  @Column('text', { nullable: true, array: true })
+  client_list?: string[];
 
   @Column({ nullable: true })
   photo_name?: string;
@@ -68,20 +68,26 @@ export class Landing {
   @Column({ nullable: true })
   plus_name?: string;
 
-  @Column({ nullable: true })
-  plus_list?: string;
+  @Column('text', { nullable: true, array: true })
+  plus_list?: string[];
+
+  @Column('text', { nullable: true, array: true })
+  plus_description_list?: string[];
 
   @Column({ nullable: true })
   plan_name?: string;
 
-  @Column({ nullable: true })
-  plan_list?: string;
+  @Column('text', { nullable: true, array: true })
+  plan_list?: string[];
 
   @Column({ nullable: true })
   button_name?: string;
 
-  @Column({ nullable: true })
-  button_list?: string;
+  @Column('text', { nullable: true, array: true })
+  button_list?: string[];
+
+  @Column('text', { nullable: true, array: true })
+  button_link_list?: string[];
 
   @Column({ nullable: true })
   contact_name?: string;
